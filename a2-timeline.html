@@ -87,6 +87,13 @@
     </div>
     
     <script>
+      // do initializations
+      window.addEventListener('DOMContentLoaded', () => {
+        updateMET();
+        updateTimeline();
+        setInterval(updateMET, 1000);
+        setInterval(updateTimeline, 60000); // 1 minute
+    });
       // April 1st, 2026, 6:35pm EDT
       const missionStart = new Date('2026-04-01T18:35:00-04:00');
 
@@ -108,8 +115,8 @@
 
       function updateContainerSize() {
         // Keep containers responsive. The image itself is 100% width.
-        const containerWidth = timelineContainer.clientWidth;
-        const containerHeight = timelineImage.clientHeight;
+        const containerWidth = cachedContainerWidth;
+        const containerHeight = cachedContainerHeight || timelineContainer.clientHeight;
         timelineContainer.style.height = `${containerHeight}px`;
 
         const headerContainer = document.getElementById('header-container');
@@ -122,17 +129,24 @@
         return containerWidth;
       }
 
-      let cachedDisplayWidth = 0;
+      let cachedDisplayWidth = timelineImage.clientWidth;
+      let cachedContainerWidth = timelineContainer.clientWidth;
+      let cachedContainerHeight = 0;
 
-      const resizeObserver = new ResizeObserver(() => {
+      const imageObserver = new ResizeObserver(() => {
         cachedDisplayWidth = timelineImage.clientWidth;
       });
+      const containerObserver = new ResizeObserver(() => {
+        cachedContainerWidth = timelineContainer.clientWidth;
+        cachedContainerHeight = timelineContainer.clientHeight;
+      });
 
-      resizeObserver.observe(timelineImage);
+      imageObserver.observe(timelineImage);
+      containerObserver.observe(timelineContainer);
 
       function imageToScreenX(imageX) {
         const naturalWidth = timelineImage.naturalWidth || 1763;
-        const displayWidth = cachedDisplayWidth || timelineImage.clientWidth;
+        const displayWidth = cachedDisplayWidth;
         if (displayWidth <= 0 || naturalWidth <= 0) {
           return imageX;
         }
@@ -141,7 +155,7 @@
 
       function screenToImageX(screenX) {
         const naturalWidth = timelineImage.naturalWidth || 1763;
-        const displayWidth = cachedDisplayWidth || timelineImage.clientWidth;
+        const displayWidth = cachedDisplayWidth;
         if (displayWidth <= 0 || naturalWidth <= 0) {
           return screenX;
         }
@@ -177,8 +191,9 @@
         timeZoneName: 'short'
       });
       let localTimeString = "";
-      let tliTimeDate = new Date("2026-04-02T07:49:00-04:00");
+      let tliTimeDate = new Date("2026-04-02T19:48:42-04:00");
       let tliString = `Trans-Lunar Injection (TLI): ${localTimeFormat.format(tliTimeDate)}`;
+      tliTime.innerText = tliString;
 
       function updateMET() {
         // Update local time display
@@ -199,47 +214,29 @@
       }
 
       function updateTimeline() {
-        // Each FD image spans 24 hours from FD(X-1):17:00:00 to FDX:17:00:00
-        // FD01 starts at -7 hours (FD00:17:00 = mission start - 7 hours)
-        // FD01 ends at +17 hours (FD01:17:00)
-        const fdStartOffsetSeconds = -7 * 3600; // -25200
-        const fdDurationSeconds = 24 * 3600; // 86400
+        const fdStartOffsetSeconds = -7 * 3600;
+        const fdDurationSeconds = 24 * 3600;
 
         const fdIndex = Math.floor((metSeconds - fdStartOffsetSeconds) / fdDurationSeconds);
         const imageNum = fdIndex + 1;
         
-        let num_str = "";
-        if (imageNum < 10) {
-          num_str = "0" + imageNum;
-        } else {
-          num_str = String(imageNum);
-        }
-        const imageName = `media/FD${num_str}.png`;
-        if (timelineImage.src !== imageName) {
+        // Use padStart for cleaner string formatting
+        const num_str = String(imageNum).padStart(2, '0');
+        const imageName = `media/FD${num_str}.png`; // Space removed!
+
+        // Only update the SRC if it has actually changed to prevent flickering
+        if (!timelineImage.src.endsWith(imageName)) {
           timelineImage.src = imageName;
         }
 
-        // Calculate progress within current FD's 24-hour window
-        const fdStartSeconds = fdStartOffsetSeconds + fdIndex * fdDurationSeconds;
-        const fdEndSeconds = fdStartSeconds + fdDurationSeconds;
-        let progressInFD = (metSeconds - fdStartSeconds) / fdDurationSeconds;
-        progressInFD = Math.min(Math.max(progressInFD, 0), 1); // clamp 0..1
+        let progressInFD = (metSeconds - (fdStartOffsetSeconds + fdIndex * fdDurationSeconds)) / fdDurationSeconds;
+        progressInFD = Math.min(Math.max(progressInFD, 0), 1);
 
-        // Position line based on progress within FD's 24-hour window and image x range
-        let imageX = lineXStartImage + progressInFD * (lineXEndImage - lineXStartImage);
-        imageX = Math.min(Math.max(imageX, lineXStartImage), lineXEndImage);
-
-        // Map back to screen coordinate for CSS placement
+        const imageX = lineXStartImage + progressInFD * (lineXEndImage - lineXStartImage);
         const screenX = imageToScreenX(imageX);
 
         timelineBar.style.left = `${screenX}px`;
-        timelineBar.style.transform = 'translateX(-50%)';
       }
-
-      setInterval(updateMET, 1000);
-      setInterval(updateTimeline, 1000 * 60);
-      updateMET();
-      updateTimeline();
 
     </script>
   </body>
