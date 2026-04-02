@@ -2,6 +2,11 @@
 <html lang="">
   <head>
     <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png?v=20260402" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260402" />
+    <link rel="shortcut icon" href="/favicon.ico?v=20260402" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260402" />
+    <link rel="manifest" href="/site.webmanifest?v=20260402" />
     <title>Artemis II MET</title>
     <style>
       #timeline-container {
@@ -70,7 +75,7 @@
       </div>
       <h2>Mission Timeline (as of January)</h2>
       <div id="header-container">
-        <img id="header-image" src="header.png" alt="Timeline Header" />
+        <img id="header-image" src="media/header.png" alt="Timeline Header" />
       </div>
       <div id="timeline-container">
         <img id="timeline-image" alt="Timeline" />
@@ -111,19 +116,26 @@
         return containerWidth;
       }
 
+      let cachedDisplayWidth = 0;
+
+      const resizeObserver = new ResizeObserver(() => {
+        cachedDisplayWidth = timelineImage.clientWidth;
+      });
+
+      resizeObserver.observe(timelineImage);
+
       function imageToScreenX(imageX) {
         const naturalWidth = timelineImage.naturalWidth || 1763;
-        const displayWidth = timelineImage.clientWidth;
+        const displayWidth = cachedDisplayWidth || timelineImage.clientWidth;
         if (displayWidth <= 0 || naturalWidth <= 0) {
           return imageX;
         }
-        // Map from original image coordinate space to rendered screen space
         return (imageX * displayWidth) / naturalWidth;
       }
 
       function screenToImageX(screenX) {
         const naturalWidth = timelineImage.naturalWidth || 1763;
-        const displayWidth = timelineImage.clientWidth;
+        const displayWidth = cachedDisplayWidth || timelineImage.clientWidth;
         if (displayWidth <= 0 || naturalWidth <= 0) {
           return screenX;
         }
@@ -150,7 +162,7 @@
         const now = new Date();
 
         // Update local time display
-        const localTimeString = now.toLocaleString('en-US', {
+        const localTimeString = new Intl.DateTimeFormat('en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
@@ -159,7 +171,7 @@
           second: '2-digit',
           hour12: true,
           timeZoneName: 'short'
-        });
+        }).format(now);
         document.getElementById('local').textContent = `Local Time: ${localTimeString}`;
 
         // Calculate MET (days/hours/minutes/seconds from mission start)
@@ -187,7 +199,7 @@
         } else {
           num_str = String(imageNum);
         }
-        const imageName = `FD${num_str}.png`;
+        const imageName = `media/FD${num_str}.png`;
         if (timelineImage.src !== imageName) {
           timelineImage.src = imageName;
         }

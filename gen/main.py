@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 
 blocks = [
-    (110, 320),
+    (225, 430),
     (320, 530),
     (530, 725),
     (720, 925),
