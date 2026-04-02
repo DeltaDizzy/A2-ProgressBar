@@ -73,13 +73,16 @@
         <h3 id="met">Mission Elapsed Time:</h3>
         <h3 id="cursor-coords">Cursor: 0, 0</h3>
       </div>
-      <h2>Mission Timeline (as of January)</h2>
+      <h2>Mission Timeline</h2>
       <div id="header-container">
         <img id="header-image" src="media/header.png" alt="Timeline Header" />
       </div>
       <div id="timeline-container">
         <img id="timeline-image" alt="Timeline" />
         <div id="timeline-bar"></div>
+      </div>
+      <div id="events">
+        <h3 id="tli">Trans-Lunar Injection (TLI):</h3>
       </div>
     </div>
     
@@ -93,6 +96,7 @@
       const cursorOutput = document.getElementById('cursor-coords');
       const localTime = document.getElementById('local');
       const metTime = document.getElementById('met');
+      const tliTime = document.getElementById('tli');
 
       // Cursor visibility toggle
       const showCursorCoords = false; // set false to hide cursor display
@@ -146,6 +150,7 @@
 
       timelineImage.addEventListener('load', () => {
         updateContainerSize();
+        updateMET();
         updateTimeline();
       });
 
@@ -172,6 +177,8 @@
         timeZoneName: 'short'
       });
       let localTimeString = "";
+      let tliTimeDate = new Date("2026-04-02T07:49:00-04:00");
+      let tliString = `Trans-Lunar Injection (TLI): ${localTimeFormat.format(tliTimeDate)}`;
 
       function updateMET() {
         // Update local time display
@@ -207,7 +214,7 @@
         } else {
           num_str = String(imageNum);
         }
-        const imageName = `media/FD${num_str}.png?v=2`;
+        const imageName = `media/FD${num_str}.png`;
         if (timelineImage.src !== imageName) {
           timelineImage.src = imageName;
         }
@@ -231,7 +238,9 @@
 
       setInterval(updateMET, 1000);
       setInterval(updateTimeline, 1000 * 60);
+      updateMET();
       updateTimeline();
+
     </script>
   </body>
 </html>
