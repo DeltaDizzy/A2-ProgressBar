@@ -74,6 +74,9 @@
         <h3 id="cursor-coords">Cursor: 0, 0</h3>
       </div>
       <h2>Mission Timeline</h2>
+      <div id="events">
+        <h3 id="tli">Trans-Lunar Injection (TLI):</h3>
+      </div>
       <div id="header-container">
         <img id="header-image" src="media/header.png" alt="Timeline Header" />
       </div>
@@ -81,9 +84,7 @@
         <img id="timeline-image" alt="Timeline" />
         <div id="timeline-bar"></div>
       </div>
-      <div id="events">
-        <h3 id="tli">Trans-Lunar Injection (TLI):</h3>
-      </div>
+      
     </div>
     
     <script>
@@ -117,7 +118,6 @@
         // Keep containers responsive. The image itself is 100% width.
         const containerWidth = cachedContainerWidth;
         const containerHeight = cachedContainerHeight || timelineContainer.clientHeight;
-        timelineContainer.style.height = `${containerHeight}px`;
 
         const headerContainer = document.getElementById('header-container');
         const headerImage = document.getElementById('header-image');
