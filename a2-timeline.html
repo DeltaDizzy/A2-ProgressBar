@@ -6,6 +6,8 @@
     <style>
       #timeline-container {
         position: relative;
+        width: 100%;
+        max-width: 100vw;
         overflow: hidden;
         border: 1px solid #ccc;
         background: #111;
@@ -19,18 +21,17 @@
       }
 
       #header-image {
-        width: 100%;
+        max-width: 100%;
         height: auto;
         display: block;
         margin: 0 auto;
       }
 
       #timeline-image {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
         width: 100%;
         height: auto;
+        display: block;
       }
 
       #timeline-bar {
@@ -90,22 +91,24 @@
       const showCursorCoords = false; // set false to hide cursor display
       cursorOutput.style.display = showCursorCoords ? 'block' : 'none';
 
-      // Configurable X range in image coordinates
-      const lineXStart = 210;
-      const lineXEnd = 1560; // adjust to your FD image width
+      // Configurable X range in image coordinates (base reference)
+      const lineXStartImage = 668;
+      const lineXEndImage = 5150; // adjust to your FD image nominal width coordinates
 
       function updateContainerSize() {
-        const displayWidth = timelineImage.clientWidth;
-        const displayHeight = timelineImage.clientHeight;
-        timelineContainer.style.width = `${displayWidth}px`;
-        timelineContainer.style.height = `${displayHeight}px`;
+        // Keep containers responsive. The image itself is 100% width.
+        const containerWidth = timelineContainer.clientWidth;
+        const containerHeight = timelineImage.clientHeight;
+        timelineContainer.style.height = `${containerHeight}px`;
 
         const headerContainer = document.getElementById('header-container');
         const headerImage = document.getElementById('header-image');
         if (headerContainer && headerImage) {
-          headerContainer.style.width = `${displayWidth}px`;
-          headerImage.style.width = `${displayWidth}px`;
+          headerContainer.style.width = `100%`;
+          headerImage.style.width = `100%`;
         }
+
+        return containerWidth;
       }
 
       function imageToScreenX(imageX) {
@@ -114,7 +117,17 @@
         if (displayWidth <= 0 || naturalWidth <= 0) {
           return imageX;
         }
+        // Map from original image coordinate space to rendered screen space
         return (imageX * displayWidth) / naturalWidth;
+      }
+
+      function screenToImageX(screenX) {
+        const naturalWidth = timelineImage.naturalWidth || 1763;
+        const displayWidth = timelineImage.clientWidth;
+        if (displayWidth <= 0 || naturalWidth <= 0) {
+          return screenX;
+        }
+        return (screenX * naturalWidth) / displayWidth;
       }
 
       timelineImage.addEventListener('load', () => {
@@ -185,12 +198,14 @@
         let progressInFD = (totalSeconds - fdStartSeconds) / fdDurationSeconds;
         progressInFD = Math.min(Math.max(progressInFD, 0), 1); // clamp 0..1
 
-        // Position line based on progress within FD's 24-hour window and x range
-        let imageX = lineXStart + progressInFD * (lineXEnd - lineXStart);
-        imageX = Math.min(Math.max(imageX, lineXStart), lineXEnd);
-        //const screenX = imageToScreenX(imageX);
+        // Position line based on progress within FD's 24-hour window and image x range
+        let imageX = lineXStartImage + progressInFD * (lineXEndImage - lineXStartImage);
+        imageX = Math.min(Math.max(imageX, lineXStartImage), lineXEndImage);
 
-        timelineBar.style.left = `${imageX}px`;
+        // Map back to screen coordinate for CSS placement
+        const screenX = imageToScreenX(imageX);
+
+        timelineBar.style.left = `${screenX}px`;
         timelineBar.style.transform = 'translateX(-50%)';
       }
 
