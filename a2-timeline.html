@@ -91,6 +91,8 @@
       const timelineImage = document.getElementById('timeline-image');
       const timelineBar = document.getElementById('timeline-bar');
       const cursorOutput = document.getElementById('cursor-coords');
+      const localTime = document.getElementById('local');
+      const metTime = document.getElementById('met');
 
       // Cursor visibility toggle
       const showCursorCoords = false; // set false to hide cursor display
@@ -158,39 +160,45 @@
 
       window.addEventListener('mousemove', updateCursor);
 
-      function updateTimeline() {
-        const now = new Date();
+      let metSeconds = 0;
+      const localTimeFormat = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+        timeZoneName: 'short'
+      });
+      let localTimeString = "";
 
+      function updateMET() {
         // Update local time display
-        const localTimeString = new Intl.DateTimeFormat('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-          timeZoneName: 'short'
-        }).format(now);
-        document.getElementById('local').textContent = `Local Time: ${localTimeString}`;
+        const now = new Date();
+        localTimeString = localTimeFormat.format(now);
+        localTime.textContent = `Local Time: ${localTimeString}`;
 
         // Calculate MET (days/hours/minutes/seconds from mission start)
         const elapsed = now - missionStart;
         const totalSeconds = Math.floor(elapsed / 1000);
+        metSeconds = totalSeconds;
         const days = Math.floor(totalSeconds / 86400);
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
         const seconds = totalSeconds % 60;
         const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        document.getElementById('met').textContent = `MET: ${metString}`;
+        metTime.textContent = `MET: ${metString}`;
+      }
 
+      function updateTimeline() {
         // Each FD image spans 24 hours from FD(X-1):17:00:00 to FDX:17:00:00
         // FD01 starts at -7 hours (FD00:17:00 = mission start - 7 hours)
         // FD01 ends at +17 hours (FD01:17:00)
         const fdStartOffsetSeconds = -7 * 3600; // -25200
         const fdDurationSeconds = 24 * 3600; // 86400
 
-        const fdIndex = Math.floor((totalSeconds - fdStartOffsetSeconds) / fdDurationSeconds);
+        const fdIndex = Math.floor((metSeconds - fdStartOffsetSeconds) / fdDurationSeconds);
         const imageNum = fdIndex + 1;
         
         let num_str = "";
@@ -207,7 +215,7 @@
         // Calculate progress within current FD's 24-hour window
         const fdStartSeconds = fdStartOffsetSeconds + fdIndex * fdDurationSeconds;
         const fdEndSeconds = fdStartSeconds + fdDurationSeconds;
-        let progressInFD = (totalSeconds - fdStartSeconds) / fdDurationSeconds;
+        let progressInFD = (metSeconds - fdStartSeconds) / fdDurationSeconds;
         progressInFD = Math.min(Math.max(progressInFD, 0), 1); // clamp 0..1
 
         // Position line based on progress within FD's 24-hour window and image x range
@@ -221,7 +229,8 @@
         timelineBar.style.transform = 'translateX(-50%)';
       }
 
-      setInterval(updateTimeline, 1000);
+      setInterval(updateMET, 1000);
+      setInterval(updateTimeline, 1000 * 60);
       updateTimeline();
     </script>
   </body>
