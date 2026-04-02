@@ -11,6 +11,20 @@
         background: #111;
       }
 
+      #header-container {
+        position: relative;
+        width: 100%;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      #header-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+
       #timeline-image {
         position: absolute;
         top: 0;
@@ -54,6 +68,9 @@
         <h3 id="cursor-coords">Cursor: 0, 0</h3>
       </div>
       <h2>Mission Timeline (as of January)</h2>
+      <div id="header-container">
+        <img id="header-image" src="header.png" alt="Timeline Header" />
+      </div>
       <div id="timeline-container">
         <img id="timeline-image" alt="Timeline" />
         <div id="timeline-bar"></div>
@@ -82,6 +99,13 @@
         const displayHeight = timelineImage.clientHeight;
         timelineContainer.style.width = `${displayWidth}px`;
         timelineContainer.style.height = `${displayHeight}px`;
+
+        const headerContainer = document.getElementById('header-container');
+        const headerImage = document.getElementById('header-image');
+        if (headerContainer && headerImage) {
+          headerContainer.style.width = `${displayWidth}px`;
+          headerImage.style.width = `${displayWidth}px`;
+        }
       }
 
       function imageToScreenX(imageX) {
