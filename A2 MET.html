@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Artemis II MET</title>
+    <style>
+      #timeline-container {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background: #111;
+      }
+
+      #timeline-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+      }
+
+      #timeline-bar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: red;
+        left: 0;
+        transform: translateX(-50%);
+        z-index: 10;
+      }
+
+      #cursor-coords {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 20;
+        background: rgba(0,0,0,0.66);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Artemis II Mission Elapsed Time</h1>
+      
+      <div id="times">
+        <h3 id="local">Local Time:</h3>
+        <h3 id="met">Mission Elapsed Time:</h3>
+        <h3 id="cursor-coords">Cursor: 0, 0</h3>
+      </div>
+      <h2>Mission Timeline (as of January)</h2>
+      <div id="timeline-container">
+        <img id="timeline-image" alt="Timeline" />
+        <div id="timeline-bar"></div>
+      </div>
+    </div>
+    
+    <script>
+      // April 1st, 2026, 6:35pm EDT
+      const missionStart = new Date('2026-04-01T18:35:00-04:00');
+
+      const timelineContainer = document.getElementById('timeline-container');
+      const timelineImage = document.getElementById('timeline-image');
+      const timelineBar = document.getElementById('timeline-bar');
+      const cursorOutput = document.getElementById('cursor-coords');
+
+      // Cursor visibility toggle
+      const showCursorCoords = false; // set false to hide cursor display
+      cursorOutput.style.display = showCursorCoords ? 'block' : 'none';
+
+      // Configurable X range in image coordinates
+      const lineXStart = 210;
+      const lineXEnd = 1560; // adjust to your FD image width
+
+      function updateContainerSize() {
+        const displayWidth = timelineImage.clientWidth;
+        const displayHeight = timelineImage.clientHeight;
+        timelineContainer.style.width = `${displayWidth}px`;
+        timelineContainer.style.height = `${displayHeight}px`;
+      }
+
+      function imageToScreenX(imageX) {
+        const naturalWidth = timelineImage.naturalWidth || 1763;
+        const displayWidth = timelineImage.clientWidth;
+        if (displayWidth <= 0 || naturalWidth <= 0) {
+          return imageX;
+        }
+        return (imageX * displayWidth) / naturalWidth;
+      }
+
+      timelineImage.addEventListener('load', () => {
+        updateContainerSize();
+        updateTimeline();
+      });
+
+      window.addEventListener('resize', () => {
+        updateContainerSize();
+        updateTimeline();
+      });
+
+      function updateCursor(event) {
+        cursorOutput.textContent = `Cursor: x=${event.clientX}, y=${event.clientY}`;
+      }
+
+      window.addEventListener('mousemove', updateCursor);
+
+      function updateTimeline() {
+        const now = new Date();
+
+        // Update local time display
+        const localTimeString = now.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+          timeZoneName: 'short'
+        });
+        document.getElementById('local').textContent = `Local Time: ${localTimeString}`;
+
+        // Calculate MET (days/hours/minutes/seconds from mission start)
+        const elapsed = now - missionStart;
+        const totalSeconds = Math.floor(elapsed / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        document.getElementById('met').textContent = `MET: ${metString}`;
+
+        // Each FD image spans 24 hours from FD(X-1):17:00:00 to FDX:17:00:00
+        // FD01 starts at -7 hours (FD00:17:00 = mission start - 7 hours)
+        // FD01 ends at +17 hours (FD01:17:00)
+        const fdStartOffsetSeconds = -7 * 3600; // -25200
+        const fdDurationSeconds = 24 * 3600; // 86400
+
+        const fdIndex = Math.floor((totalSeconds - fdStartOffsetSeconds) / fdDurationSeconds);
+        const imageNum = fdIndex + 1;
+        
+        let num_str = "";
+        if (imageNum < 10) {
+          num_str = "0" + imageNum;
+        } else {
+          num_str = String(imageNum);
+        }
+        const imageName = `FD${num_str}.png`;
+        if (timelineImage.src !== imageName) {
+          timelineImage.src = imageName;
+        }
+
+        // Calculate progress within current FD's 24-hour window
+        const fdStartSeconds = fdStartOffsetSeconds + fdIndex * fdDurationSeconds;
+        const fdEndSeconds = fdStartSeconds + fdDurationSeconds;
+        let progressInFD = (totalSeconds - fdStartSeconds) / fdDurationSeconds;
+        progressInFD = Math.min(Math.max(progressInFD, 0), 1); // clamp 0..1
+
+        // Position line based on progress within FD's 24-hour window and x range
+        let imageX = lineXStart + progressInFD * (lineXEnd - lineXStart);
+        imageX = Math.min(Math.max(imageX, lineXStart), lineXEnd);
+        //const screenX = imageToScreenX(imageX);
+
+        timelineBar.style.left = `${imageX}px`;
+        timelineBar.style.transform = 'translateX(-50%)';
+      }
+
+      setInterval(updateTimeline, 1000);
+      updateTimeline();
+    </script>
+  </body>
+</html>

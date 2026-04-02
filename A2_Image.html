@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image with Cursor Coordinates</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        #coordinates {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(0, 0);
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 9999;
+            white-space: nowrap;
+        }
+
+        #horizontal-line {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: red;
+            pointer-events: none;
+            z-index: 9998;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="image" src="timeline.png" alt="Timeline">
+        <div id="coordinates">X: 0, Y: 0</div>
+        <div id="horizontal-line"></div>
+    </div>
+
+    <script>
+        const image = document.getElementById('image');
+        const coordinates = document.getElementById('coordinates');
+        const horizontalLine = document.getElementById('horizontal-line');
+
+        image.addEventListener('mousemove', (e) => {
+            const rect = image.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+            coordinates.textContent = `X: ${x}, Y: ${y}`;
+
+            const offset = 12;
+            coordinates.style.left = `${e.clientX + offset}px`;
+            coordinates.style.top = `${e.clientY + offset}px`;
+
+            horizontalLine.style.display = 'block';
+            horizontalLine.style.top = `${e.clientY}px`;
+        });
+
+        image.addEventListener('mouseleave', () => {
+            coordinates.textContent = 'X: 0, Y: 0';
+            coordinates.style.left = '10px';
+            coordinates.style.top = '10px';
+            horizontalLine.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
