@@ -53,8 +53,21 @@
     pointer-events: none;
 }
 
-#streams {
-    margin-top: 5%;
+.flex-misc-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.box {
+    flex: 1;
+    padding: 10px;
+}
+
+td {
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px solid #111;
 }
 
 body {
