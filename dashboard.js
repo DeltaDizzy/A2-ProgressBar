@@ -21,8 +21,10 @@ const countdownFormat = new Intl.DateTimeFormat('en-US', {
     second: '2-digit',
 });
 let localTimeString = "";
-const eventOffset = 1 * (24 * 60 * 60 * 1000) + 18 * (60 * 60 * 1000);
-const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
+
+function computeEventOffset(days, hours, minutes, seconds) {
+    return days * (24 * 60 * 60 * 1000) + hours * (60 * 60 * 1000) + minutes * (60 * 1000) + seconds * 1000;
+}
 
 // do initializations
 window.addEventListener('DOMContentLoaded', () => {
@@ -71,7 +73,8 @@ function updatePage() {
     metSeconds = totalSeconds;
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
-
+    const eventOffset = computeEventOffset(1, 18, 0, 0);
+    const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = `T-${getTTE(updateMET(nextEventTime).totalSeconds)}`;
     updateTimeline();
 }
