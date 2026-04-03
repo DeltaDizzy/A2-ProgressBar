@@ -75,7 +75,7 @@ function updatePage() {
     metTime.textContent = `MET: ${metString}`;
     const eventOffset = computeEventOffset(1, 18, 0, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
-    countdownElem.textContent = `T-${getTTE(updateMET(nextEventTime).totalSeconds)}`;
+    countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
     updateTimeline();
 }
 
