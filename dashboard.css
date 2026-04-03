@@ -63,3 +63,9 @@ body {
 #container {
     margin: 8px;
 }
+
+a {
+    font-size: larger; 
+    font-weight: bold; 
+    text-align: right;
+}
