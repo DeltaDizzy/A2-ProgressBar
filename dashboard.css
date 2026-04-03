@@ -33,6 +33,7 @@
     bottom: 0;
     width: 3px;
     background: red;
+    opacity: 0.4;
     left: var(--progress, 0%);
     transform: translateX(-50%);
     z-index: 10;
