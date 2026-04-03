@@ -1,26 +1,34 @@
 const CONFIG = {
-missionStart: new Date('2026-04-01T18:35:00-04:00'),
-imageBounds: {xStart: 645, xEnd: 5287, width: 5500},
+    missionStart: new Date('2026-04-01T18:35:00-04:00'),
+    imageBounds: {xStart: 645, xEnd: 5287, width: 5500},
 };
 
 let metSeconds = 0;
 const localTimeFormat = new Intl.DateTimeFormat('en-US', {
-year: 'numeric',
-month: 'short',
-day: 'numeric',
-hour: '2-digit',
-minute: '2-digit',
-second: '2-digit',
-hour12: true,
-timeZoneName: 'short'
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+    timeZoneName: 'short'
+});
+
+const countdownFormat = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
 });
 let localTimeString = "";
+const eventOffset = 1 * (24 * 60 * 60 * 1000) + 18 * (60 * 60 * 1000);
+const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
 
 // do initializations
 window.addEventListener('DOMContentLoaded', () => {
-updateMET();
-updateTimeline();
-setInterval(updatePage, 1000);
+    updateMET();
+    updateTimeline();
+    setInterval(updatePage, 1000);
 });
 
 const timelineContainer = document.getElementById('timeline-container');
@@ -29,6 +37,7 @@ const timelineBar = document.getElementById('timeline-bar');
 const cursorOutput = document.getElementById('cursor-coords');
 const localTime = document.getElementById('local');
 const metTime = document.getElementById('met');
+const countdownElem = document.getElementById('next-event-countdown');
 let nextImage = null;
 
 function init() {
@@ -58,22 +67,41 @@ function updatePage() {
     const now = new Date();
     localTimeString = localTimeFormat.format(now);
     localTime.textContent = `Local Time: ${localTimeString}`;
-    const { days, hours, minutes, seconds } = updateMET(now);
+    const { totalSeconds, days, hours, minutes, seconds } = updateMET(now);
+    metSeconds = totalSeconds;
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
+
+    countdownElem.textContent = `T-${getTTE(updateMET(nextEventTime).totalSeconds)}`;
     updateTimeline();
 }
 
+    function getTTE(targetMETSeconds) {
+        // 1. Calculate raw difference
+        let diff = targetMETSeconds - metSeconds; // metSeconds is your global current MET
+
+        // 2. Handle past events
+        if (diff <= 0) return "Event Started";
+
+        // 3. Math to extract hours, minutes, and seconds
+        const hours = Math.floor(diff / 3600);
+        const minutes = Math.floor((diff % 3600) / 60);
+        const seconds = Math.floor(diff % 60);
+
+        // 4. Format with leading zeros (00:00:00)
+        return [hours, minutes, seconds]
+            .map(val => String(val).padStart(2, '0'))
+            .join(':');
+    }
 function updateMET(current_time) {
     // Calculate MET (days/hours/minutes/seconds from mission start)
     const elapsed = current_time - CONFIG.missionStart;
     const totalSeconds = Math.floor(elapsed / 1000);
-    metSeconds = totalSeconds;
     const days = Math.floor(totalSeconds / 86400);
     const hours = Math.floor((totalSeconds % 86400) / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    return { days, hours, minutes, seconds };
+    return { totalSeconds, days, hours, minutes, seconds };
 }
 
 function updateTimeline() {
