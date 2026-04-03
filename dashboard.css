@@ -14,6 +14,20 @@
     margin-right: 3%;
 }
 
+#next-event {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#next-event > p {
+    font-weight: bold;
+    font-size: large;
+    margin: 0%;
+}
+
 #patch {
     margin-left: 1.5%;
 }
