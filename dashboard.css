@@ -1,3 +1,23 @@
+#top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+#times {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+    text-align: center;
+    margin-right: 3%;
+}
+
+#patch {
+    margin-left: 1.5%;
+}
+
 #header-container {
     position: relative;
     width: 100%;
@@ -35,22 +55,10 @@
     background: red;
     opacity: 0.4;
     left: var(--progress, 0%);
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 10%, 0);
     z-index: 10;
     margin: -8px;
-}
-
-#cursor-coords {
-    position: fixed;
-    top: 8px;
-    left: 8px;
-    z-index: 20;
-    background: rgba(0,0,0,0.66);
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-family: monospace;
-    pointer-events: none;
+    height: 90%;
 }
 
 .flex-misc-info {
@@ -64,15 +72,34 @@
     padding: 10px;
 }
 
+#glossary {
+    flex-grow: 1;
+    overflow-y: auto;
+    background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
+}
+
+#streams {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+}
+
 td {
     padding-left: 3px;
     padding-right: 3px;
     border: 1px solid #111;
 }
 
-body {
+#background {
     margin: 0%;
-}
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+        url(https://i0.wp.com/www.spacescout.info/wp-content/uploads/2026/04/joe-b-palms.jpg);
+};
 
 #container {
     margin: 8px;

@@ -10,17 +10,17 @@
     <title>Artemis II MET</title>
     <link rel="stylesheet" href="dashboard.css">
   </head>
-  <body>
+  <body id="background">
     <div id="container">
-      <h1>Artemis II Mission Elapsed Time</h1>
-      
-      <div id="times">
-        <h3 id="local">Local Time:</h3>
-        <h3 id="met">Mission Elapsed Time:</h3>
-        <h3 id="cursor-coords">Cursor: 0, 0</h3>
-        <a href="/schedule.html">View Full Mission Schedule</a>
+      <div id="top">
+        <img id="patch" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Artemis_II_patch.png/250px-Artemis_II_patch.png" alt="Artemis II Patch">
+        <div id="times">
+          <h3 id="local">Local Time:</h3>
+          <h3 id="met">Mission Elapsed Time:</h3>
+          <h3 id="cursor-coords">Cursor: 0, 0</h3>
+        </div>
       </div>
-      <h2>Mission Timeline</h2>
+      
       <div id="header-container">
         <img id="header-image" src="media/header.png" alt="Timeline Header" />
       </div>
@@ -30,9 +30,10 @@
       </div>
       <div class="flex-misc-info">
         <div id="streams" class="box">
-          <a href="https://www.youtube.com/watch?v=m3kR2KK8TEs">Full Mission Coverage</a>
-          <p></p>
+          <a style="margin-top: 5%;" href="https://www.youtube.com/watch?v=m3kR2KK8TEs">Full Mission Coverage</a>
           <a href="https://www.youtube.com/watch?v=6RwfNBtepa4">Live Views From Orion</a>
+          <a href="/schedule.html">View Full Mission Schedule</a>
+          <p style="padding: 8px; margin-top:5%; background-color: rgba(255, 255, 255, 0.8);">Background Image Credit: Joeseph Bernardin for Space Scout</p>
         </div>
         <div id="glossary" class="box">
           <table>
@@ -59,6 +60,14 @@
             <tr>
               <td>Bias -XSI</td>
               <td>Point Orion along the -X axis of the Solar Inertial reference frame, or radially out from the sun.</td>
+            </tr>
+            <tr>
+              <td>PMC</td>
+              <td>Private Medical Conference</td>
+            </tr>
+            <tr>
+              <td>TLI</td>
+              <td>Trans-Lunar Injection</td>
             </tr>
           </table>
         </div>
