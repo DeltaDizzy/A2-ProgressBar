@@ -73,7 +73,7 @@ function updatePage() {
     metSeconds = totalSeconds;
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
-    const eventOffset = computeEventOffset(2, 1, 8, 42);
+    const eventOffset = computeEventOffset(2, 2, 10, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
     updateTimeline();
