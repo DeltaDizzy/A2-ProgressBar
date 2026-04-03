@@ -75,7 +75,6 @@
       </div>
       <h2>Mission Timeline</h2>
       <div id="events">
-        <h3 id="tli">Trans-Lunar Injection (TLI):</h3>
       </div>
       <div id="header-container">
         <img id="header-image" src="media/header.png" alt="Timeline Header" />
@@ -104,7 +103,6 @@
       const cursorOutput = document.getElementById('cursor-coords');
       const localTime = document.getElementById('local');
       const metTime = document.getElementById('met');
-      const tliTime = document.getElementById('tli');
 
       // Cursor visibility toggle
       const showCursorCoords = false; // set false to hide cursor display
@@ -191,10 +189,7 @@
         timeZoneName: 'short'
       });
       let localTimeString = "";
-      let tliTimeDate = new Date("2026-04-02T19:49:00-04:00");
-      let tliString = `Trans-Lunar Injection (TLI): ${localTimeFormat.format(tliTimeDate)}`;
-      tliTime.innerText = tliString;
-
+      
       function updateMET() {
         // Update local time display
         const now = new Date();
