@@ -92,9 +92,9 @@ function updatePage() {
         const seconds = Math.floor(diff % 60);
 
         // 4. Format with leading zeros (00:00:00)
-        return [hours, minutes, seconds]
+        return `T-${[hours, minutes, seconds]
             .map(val => String(val).padStart(2, '0'))
-            .join(':');
+            .join(':')}`;
     }
 function updateMET(current_time) {
     // Calculate MET (days/hours/minutes/seconds from mission start)
