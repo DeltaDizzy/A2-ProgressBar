@@ -73,29 +73,30 @@ function updatePage() {
     metSeconds = totalSeconds;
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
-    const eventOffset = computeEventOffset(2, 2, 10, 0);
+
+    const eventOffset = computeEventOffset(2, 6, 30, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
     updateTimeline();
 }
 
-    function getTTE(targetMETSeconds) {
-        // 1. Calculate raw difference
-        let diff = targetMETSeconds - metSeconds; // metSeconds is your global current MET
+function getTTE(targetMETSeconds) {
+    // 1. Calculate raw difference
+    let diff = targetMETSeconds - metSeconds; // metSeconds is your global current MET
 
-        // 2. Handle past events
-        if (diff <= 0) return "Event Started";
+    // 2. Handle past events
+    if (diff <= 0) return "Event Started";
 
-        // 3. Math to extract hours, minutes, and seconds
-        const hours = Math.floor(diff / 3600);
-        const minutes = Math.floor((diff % 3600) / 60);
-        const seconds = Math.floor(diff % 60);
+    // 3. Math to extract hours, minutes, and seconds
+    const hours = Math.floor(diff / 3600);
+    const minutes = Math.floor((diff % 3600) / 60);
+    const seconds = Math.floor(diff % 60);
 
-        // 4. Format with leading zeros (00:00:00)
-        return `T-${[hours, minutes, seconds]
-            .map(val => String(val).padStart(2, '0'))
-            .join(':')}`;
-    }
+    // 4. Format with leading zeros (00:00:00)
+    return `T-${[hours, minutes, seconds]
+        .map(val => String(val).padStart(2, '0'))
+        .join(':')}`;
+}
 function updateMET(current_time) {
     // Calculate MET (days/hours/minutes/seconds from mission start)
     const elapsed = current_time - CONFIG.missionStart;
