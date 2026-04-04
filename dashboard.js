@@ -40,6 +40,8 @@ const cursorOutput = document.getElementById('cursor-coords');
 const localTime = document.getElementById('local');
 const metTime = document.getElementById('met');
 const countdownElem = document.getElementById('next-event-countdown');
+const nextEventMet = document.getElementById('next-event-met');
+const nextEventName = document.getElementById('next-event-description');
 let nextImage = null;
 
 function init() {
@@ -74,7 +76,9 @@ function updatePage() {
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
 
-    const eventOffset = computeEventOffset(2, 6, 30, 0);
+    nextEventName.textContent = "SAW PAO (Selfie)"
+    nextEventMet.textContent = "MET +2/20:50:00 (estimate)"
+    const eventOffset = computeEventOffset(2, 20, 50, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
     updateTimeline();
