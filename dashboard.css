@@ -28,6 +28,10 @@
     margin: 0%;
 }
 
+#updates {
+    align-self: center;
+}
+
 #patch {
     margin-left: 1.5%;
 }
