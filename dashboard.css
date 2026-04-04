@@ -115,7 +115,7 @@ td {
     height: 100%;
     overflow: auto;
     background: 
-        linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+        linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
         url(https://live.staticflickr.com/65535/55184731952_b7a4b18d6a_4k.jpg) center / cover;
 };
 
