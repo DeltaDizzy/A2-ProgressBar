@@ -3,8 +3,8 @@
     flex-direction: row;
     justify-content: space-between;
     margin: 10px;
+    color: white;
 }
-
 #times {
     display: flex;
     flex-direction: column;
@@ -111,8 +111,8 @@ td {
     height: 100%;
     overflow: auto;
     background: 
-        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
-        url(https://i0.wp.com/www.spacescout.info/wp-content/uploads/2026/04/joe-b-palms.jpg);
+        linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+        url(https://live.staticflickr.com/65535/55184731952_b7a4b18d6a_4k.jpg) center / cover;
 };
 
 #container {
