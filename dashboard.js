@@ -78,9 +78,9 @@ function updatePage() {
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
 
-    nextEventName.textContent = "PAO Event"
-    nextEventMet.textContent = "MET +2/22:00:00 (estimate)"
-    const eventOffset = computeEventOffset(2, 22, 0, 0);
+    nextEventName.textContent = "SAW PAO (potentially)"
+    nextEventMet.textContent = "MET +3/02:15:00"
+    const eventOffset = computeEventOffset(3, 2, 15, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
 
