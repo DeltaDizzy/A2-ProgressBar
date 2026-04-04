@@ -124,3 +124,7 @@ a {
     font-weight: bold; 
     text-align: right;
 }
+
+.box > iframe {
+    padding: 10px;
+}
