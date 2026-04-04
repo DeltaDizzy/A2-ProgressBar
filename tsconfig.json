@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./script-built",
+    "rootDir": "./script-src",
+    "allowJs": true,
+    "target": "es2025"
+  },
+  "include": ["./script-src/**/*"]
+}

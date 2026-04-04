@@ -1,3 +1,5 @@
+import { parse, stringify } from 'https://unpkg.com/smol-toml?module';
+
 const CONFIG = {
     missionStart: new Date('2026-04-01T18:35:00-04:00'),
     imageBounds: {xStart: 645, xEnd: 5287, width: 5500},
@@ -27,13 +29,13 @@ function computeEventOffset(days, hours, minutes, seconds) {
 }
 
 // do initializations
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     updateMET();
     updateTimeline();
     setInterval(updatePage, 1000);
+    events = await loadEvents();
 });
 
-const timelineContainer = document.getElementById('timeline-container');
 const timelineImage = document.getElementById('timeline-image');
 const timelineBar = document.getElementById('timeline-bar');
 const cursorOutput = document.getElementById('cursor-coords');
@@ -41,6 +43,7 @@ const localTime = document.getElementById('local');
 const metTime = document.getElementById('met');
 const countdownElem = document.getElementById('next-event-countdown');
 let nextImage = null;
+let events = null;
 
 function init() {
     updateMET();
@@ -65,7 +68,20 @@ function getImageName(flight_day_index) {
 const showCursorCoords = false; // set false to hide cursor display
 cursorOutput.style.display = showCursorCoords ? 'block' : 'none';
 
+async function loadEvents() {
+    try {
+        const response = await fetch('events.toml');
+        const text = await response.text();
+        const data = parse(text);
+        return data.events;
+    } catch (error) {
+        console.error("Failed to load mission events:", error);
+        return [];
+    }
+}
+
 function updatePage() {
+    // update MET 
     const now = new Date();
     localTimeString = localTimeFormat.format(now);
     localTime.textContent = `Local Time: ${localTimeString}`;
@@ -73,29 +89,35 @@ function updatePage() {
     metSeconds = totalSeconds;
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
+
+    // find next event
+    if (events && events.length > 0) {
+        
+    }
     const eventOffset = computeEventOffset(2, 2, 10, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
     updateTimeline();
 }
 
-    function getTTE(targetMETSeconds) {
-        // 1. Calculate raw difference
-        let diff = targetMETSeconds - metSeconds; // metSeconds is your global current MET
+function getTTE(targetMETSeconds) {
+    // 1. Calculate raw difference
+    let diff = targetMETSeconds - metSeconds; // metSeconds is your global current MET
 
-        // 2. Handle past events
-        if (diff <= 0) return "Event Started";
+    // 2. Handle past events
+    if (diff <= 0) return "Event Started";
 
-        // 3. Math to extract hours, minutes, and seconds
-        const hours = Math.floor(diff / 3600);
-        const minutes = Math.floor((diff % 3600) / 60);
-        const seconds = Math.floor(diff % 60);
+    // 3. Math to extract hours, minutes, and seconds
+    const hours = Math.floor(diff / 3600);
+    const minutes = Math.floor((diff % 3600) / 60);
+    const seconds = Math.floor(diff % 60);
 
-        // 4. Format with leading zeros (00:00:00)
-        return `T-${[hours, minutes, seconds]
-            .map(val => String(val).padStart(2, '0'))
-            .join(':')}`;
-    }
+    // 4. Format with leading zeros (00:00:00)
+    return `T-${[hours, minutes, seconds]
+        .map(val => String(val).padStart(2, '0'))
+        .join(':')}`;
+}
+
 function updateMET(current_time) {
     // Calculate MET (days/hours/minutes/seconds from mission start)
     const elapsed = current_time - CONFIG.missionStart;
