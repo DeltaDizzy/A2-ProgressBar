@@ -79,8 +79,8 @@ function updatePage() {
     metTime.textContent = `MET: ${metString}`;
 
     nextEventName.textContent = "Science Imaging"
-    nextEventMet.textContent = "MET +3/06:00:00"
-    const eventOffset = computeEventOffset(3, 6, 0, 0);
+    nextEventMet.textContent = "MET +4/01:15:00"
+    const eventOffset = computeEventOffset(4, 1, 15, 0);
     const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
     countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
 
