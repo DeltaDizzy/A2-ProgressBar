@@ -99,7 +99,7 @@ def save_blocks_from_image(image, output_dir, *, image_format="PNG", dpi_scale=1
 
     First block is saved as "header", subsequent blocks as FD01, FD02, etc.
     """
-    output_dir = Path(output_dir)
+    output_dir = Path(output_dir: str)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for idx, (y0, y1) in enumerate(blocks):
@@ -125,11 +125,11 @@ def save_blocks_from_image(image, output_dir, *, image_format="PNG", dpi_scale=1
 
 def main():
     parser = argparse.ArgumentParser(description="Render PDF pages to one single tall image")
-    parser.add_argument("pdf_file", help="Path to input PDF")
-    parser.add_argument("-o", "--output", help="Output image file path")
-    parser.add_argument("--dpi", type=int, default=300, help="Render DPI")
-    parser.add_argument("--format", default="PNG", help="Image format: PNG, JPEG")
-    parser.add_argument("--split-blocks", action="store_true", help="Save blocks from list 'blocks' as FDxx.png")
+    _ = parser.add_argument("pdf_file", help="Path to input PDF")
+    _ = parser.add_argument("-o", "--output", help="Output image file path")
+    _ = parser.add_argument("--dpi", type=int, default=300, help="Render DPI")
+    _ = parser.add_argument("--format", default="PNG", help="Image format: PNG, JPEG")
+    _ = parser.add_argument("--split-blocks", action="store_true", help="Save blocks from list 'blocks' as FDxx.png")
 
     args = parser.parse_args()
 

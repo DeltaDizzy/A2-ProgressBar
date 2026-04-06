@@ -1,0 +1,62 @@
+[[events]]
+title = "FD06 Crew Wakeup"
+days = 4
+hours = 16
+minutes = 10
+seconds = 0
+
+[[events]]
+title = "Apollo Record PAO Event"
+days = 4
+hours = 19
+minutes = 15
+seconds = 0
+
+[[events]]
+title = "Start of Flyby Observations"
+days = 4
+hours = 20
+minutes = 0
+seconds = 0
+
+[[events]]
+title = "Closest Approach to the Moon"
+days = 5
+hours = 0
+minutes = 29
+seconds = 59
+
+[[events]]
+title = "Farthest Distance from Earth"
+days = 5
+hours = 0
+minutes = 35
+seconds = 0
+
+[[events]]
+title = "Start of Solar Eclipse"
+days = 5
+hours = 0
+minutes = 35
+seconds = 0
+
+[[events]]
+title = "End of Solar Eclipse"
+days = 5
+hours = 0
+minutes = 35
+seconds = 0
+
+[[events]]
+title = "Post-Flyby PAO Event"
+days = 5
+hours = 0
+minutes = 35
+seconds = 0
+
+[[events]]
+title = "FD07 Crew Wakeup"
+days = 5
+hours = 17
+minutes = 0
+seconds = 0

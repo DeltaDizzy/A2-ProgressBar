@@ -1,3 +1,5 @@
+import { parse } from 'https://unpkg.com/smol-toml?module';
+
 const CONFIG = {
     missionStart: new Date('2026-04-01T18:35:00-04:00'),
     imageBounds: {xStart: 645, xEnd: 5287, width: 5500},
@@ -26,11 +28,36 @@ function computeEventOffset(days, hours, minutes, seconds) {
     return days * (24 * 60 * 60 * 1000) + hours * (60 * 60 * 1000) + minutes * (60 * 1000) + seconds * 1000;
 }
 
+async function fetchAndParseEvents() {
+    try {
+        // Adding a timestamp to the URL prevents the browser from 
+        // caching an old version of the TOML file.
+        const response = await fetch(`events.toml?nocache=${Date.now()}`);
+        if (!response.ok) throw new Error("Network response was not ok");
+        
+        const text = await response.text();
+        const data = parse(text);
+        
+        // Ensure we return the events array
+        return data.events || []; 
+    } catch (error) {
+        console.error("Fetch error:", error);
+        return events; // Return existing events if fetch fails
+    }
+}
+
+async function syncEvents() {
+    console.log("Syncing events from TOML...");
+    events = await fetchAndParseEvents();
+}
+
 // do initializations
 window.addEventListener('DOMContentLoaded', () => {
+    syncEvents();
     updateMET();
     updateTimeline();
     setInterval(updatePage, 1000);
+    setInterval(syncEvents, 300000); // Sync events every 5 minutes
 });
 
 const timelineContainer = document.getElementById('timeline-container');
@@ -44,7 +71,7 @@ const nextEventMet = document.getElementById('next-event-met');
 const nextEventName = document.getElementById('next-event-description');
 const updatesElem = document.getElementById('updates');
 let nextImage = null;
-let updates = [];
+let events = [];
 
 function init() {
     updateMET();
@@ -78,13 +105,38 @@ function updatePage() {
     const metString = `${days}/${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     metTime.textContent = `MET: ${metString}`;
 
-    nextEventName.textContent = "Science Imaging"
-    nextEventMet.textContent = "MET +4/01:15:00"
-    const eventOffset = computeEventOffset(4, 1, 15, 0);
-    const nextEventTime = new Date(CONFIG.missionStart.getTime() + eventOffset);
-    countdownElem.textContent = getTTE(updateMET(nextEventTime).totalSeconds);
+    updateActiveEvent();
 
     updateTimeline();
+}
+
+function updateActiveEvent() {
+    if (!events || events.length === 0) return;
+
+    // 1. Calculate the current MET in milliseconds for precision
+    const currentMs = metSeconds * 1000;
+
+    // 2. Find the first event whose offset is GREATER than current time
+    const nextEvent = events.find(event => {
+        const offset = computeEventOffset(event.days, event.hours, event.minutes, event.seconds);
+        return offset > currentMs;
+    });
+
+    // 3. Update the UI if an event is found
+    if (nextEvent) {
+        nextEventName.textContent = nextEvent.title;
+        
+        // Format the target MET string for display
+        const targetMET = `${nextEvent.days}/${String(nextEvent.hours).padStart(2,'0')}:${String(nextEvent.minutes).padStart(2,'0')}:00`;
+        nextEventMet.textContent = `MET ${targetMET}`;
+        
+        // Update the countdown timer
+        const targetSeconds = computeEventOffset(nextEvent.days, nextEvent.hours, nextEvent.minutes, nextEvent.seconds) / 1000;
+        countdownElem.textContent = getTTE(targetSeconds);
+    } else {
+        nextEventName.textContent = "No Upcoming Events";
+        nextEventMet.textContent = "";
+    }
 }
 
 function getTTE(targetMETSeconds) {
