@@ -51,16 +51,49 @@ async function syncEvents() {
     events = await fetchAndParseEvents();
 }
 
+async function loadUpdates() {
+    try {
+        // Fetch the text file with a cache-buster
+        const response = await fetch('updates.txt?v=' + Date.now());
+        const text = await response.text();
+
+        // Split the text into an array by newlines
+        // This handles both Windows (\r\n) and Unix (\n) line endings
+        const lines = text.split(/\r?\n/);
+
+        // Clear existing content in the element
+        updatesElem.innerHTML = '';
+
+        // Loop through lines and add them to the element
+        lines.forEach(line => {
+            if (line.trim() !== "") { // Skip empty lines
+                const lineSpan = document.createElement('span');
+                lineSpan.textContent = line;
+                updatesElem.appendChild(lineSpan);
+                updatesElem.appendChild(document.createElement('br'));
+            } else {
+                updatesElem.textContent = "No updates available.";
+            }
+        });
+    } catch (error) {
+        console.error("Error loading updates:", error);
+        updatesElem.textContent = "Failed to load mission updates.";
+    }
+}
+
 // do initializations
 window.addEventListener('DOMContentLoaded', () => {
     syncEvents();
+    loadUpdates();
     updateMET();
     updateTimeline();
     setInterval(updatePage, 1000);
-    setInterval(syncEvents, 300000); // Sync events every 5 minutes
+    setInterval(() => {
+        syncEvents();
+        loadUpdates();
+    }, 300000); // Sync events every 5 minutes
 });
 
-const timelineContainer = document.getElementById('timeline-container');
 const timelineImage = document.getElementById('timeline-image');
 const timelineBar = document.getElementById('timeline-bar');
 const cursorOutput = document.getElementById('cursor-coords');
@@ -69,7 +102,7 @@ const metTime = document.getElementById('met');
 const countdownElem = document.getElementById('next-event-countdown');
 const nextEventMet = document.getElementById('next-event-met');
 const nextEventName = document.getElementById('next-event-description');
-const updatesElem = document.getElementById('updates');
+const updatesElem = document.getElementById('updates-text');
 let nextImage = null;
 let events = [];
 

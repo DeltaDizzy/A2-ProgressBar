@@ -31,7 +31,7 @@ title = "Closest Approach to the Moon"
 days = 5
 hours = 0
 minutes = 27
-seconds = 00
+seconds = 0
 
 [[events]]
 title = "Farthest Distance from Earth"

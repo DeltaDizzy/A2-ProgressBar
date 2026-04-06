@@ -119,6 +119,12 @@ td {
         url(https://live.staticflickr.com/65535/55184731952_b7a4b18d6a_4k.jpg) center / cover;
 };
 
+#updates-text span {
+    display: block; /* Makes each line act like a new row */
+    margin-bottom: 5px;
+    font-family: monospace; /* Often used for mission logs */
+}
+
 #container {
     margin: 8px;
 }
