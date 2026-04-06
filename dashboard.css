@@ -5,6 +5,7 @@
     margin: 10px;
     color: white;
 }
+
 #times {
     display: flex;
     flex-direction: column;
@@ -12,6 +13,14 @@
     align-self: center;
     text-align: center;
     margin-right: 3%;
+}
+
+#times a:link {
+    color: #e60027;
+}
+
+#times a:visited {
+    color: #00afef;
 }
 
 #next-event {
