@@ -42,9 +42,9 @@ seconds = 39
 
 [[events]]
 title = "Acquisition of Signal (AOS)"
-days = 4
-hours = 20
-minutes = 10
+days = 5
+hours = 0
+minutes = 48
 seconds = 0
 
 [[events]]
