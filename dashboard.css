@@ -48,8 +48,10 @@
 #header-container {
     position: relative;
     width: 100%;
+    aspect-ratio: 5500 / 683;
     text-align: center;
     overflow: hidden;
+    margin: -8px;
 }
 
 #header-image {
