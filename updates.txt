@@ -1,0 +1,1 @@
+Distance Record PAO event has been replaced with short remarks.
