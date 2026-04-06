@@ -91,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         syncEvents();
         loadUpdates();
-    }, 300000); // Sync events every 5 minutes
+    }, 30000); // Sync events every 30 seconds
 });
 
 const timelineImage = document.getElementById('timeline-image');
