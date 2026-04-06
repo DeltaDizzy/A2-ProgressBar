@@ -40,7 +40,7 @@ print(f"Observation Start: \t{convert_time(datetime(2026, 4, 6, 14, 45, 0, tzinf
 print(f"Blackout Begins: \t{convert_time(datetime(2026, 4, 6, 18, 44, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"Closest Approach: \t{convert_time(datetime(2026, 4, 6, 19, 2, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"Farthest Distance: \t{convert_time(datetime(2026, 4, 6, 19, 7, 0, tzinfo=edt_offset), to_met=True)}")
-print(f"Blackout Ends: \t\t{convert_time(datetime(2026, 4, 6, 19, 25, 0, tzinfo=edt_offset), to_met=True)}")
+print(f"Blackout Ends: \t\t{convert_time(datetime(2026, 4, 6, 19, 23, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"Eclipse Start (MET): \t{convert_time(datetime(2026, 4, 6, 20, 35, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"Eclipse End (MET): \t{convert_time(datetime(2026, 4, 6, 21, 32, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"End of Observations: \t{convert_time(datetime(2026, 4, 6, 21, 20, 0, tzinfo=edt_offset), to_met=True)}")
