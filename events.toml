@@ -1,25 +1,4 @@
 [[events]]
-title = "Post-Flyby PAO Event (estimate)"
-days = 5
-hours = 4
-minutes = 15
-seconds = 0
-
-[[events]]
-title = "CM/SM Survey"
-days = 5
-hours = 12
-minutes = 30
-seconds = 0
-
-[[events]]
-title = "Lunar SOI Exit"
-days = 5
-hours = 16
-minutes = 53
-seconds = 0
-
-[[events]]
 title = "FD07 Crew Wakeup"
 days = 5
 hours = 17
