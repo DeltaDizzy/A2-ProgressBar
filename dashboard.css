@@ -16,11 +16,11 @@
 }
 
 #times a:link {
-    color: #e60027;
+    color: #fc3d21;
 }
 
 #times a:visited {
-    color: #00afef;
+    color: #27aae1;
 }
 
 #next-event {
@@ -113,6 +113,7 @@
     background: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border: 1px solid #444;
+    margin-top: 1%;
 }
 
 .event-item {
