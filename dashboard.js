@@ -81,13 +81,50 @@ async function loadUpdates() {
     }
 }
 
+function renderEventList() {
+    const listElement = document.getElementById('event-list');
+    if (!events || !listElement) return;
+
+    // Filter to show only future events
+    const currentMs = metSeconds * 1000;
+    const upcoming = events.filter(e => {
+        return computeEventOffset(e.days, e.hours, e.minutes, e.seconds) > currentMs;
+    });
+
+    // Clear and rebuild to update countdowns
+    listElement.innerHTML = '';
+
+    upcoming.forEach(event => {
+        const eventMs = computeEventOffset(event.days, event.hours, event.minutes, event.seconds);
+        const targetSeconds = eventMs / 1000;
+        
+        const item = document.createElement('div');
+        item.className = 'event-item';
+        
+        // Use your existing getTTE function for the countdown string
+        const countdownStr = getTTE(targetSeconds);
+        const metStr = `${event.days}/${String(event.hours).padStart(2, '0')}:${String(event.minutes).padStart(2, '0')}:00`;
+
+        item.innerHTML = `
+            <strong>${event.title}</strong><br>
+            <a style="font-size: medium; color: #fc3d21;">MET: ${metStr}</a><br>
+            <span class="event-countdown">${countdownStr}</span>
+        `;
+        
+        listElement.appendChild(item);
+    });
+}
+
 // do initializations
 window.addEventListener('DOMContentLoaded', () => {
     syncEvents();
     loadUpdates();
     updateMET();
     updateTimeline();
-    setInterval(updatePage, 1000);
+    setInterval(() => {
+        updatePage();
+        renderEventList();
+    }, 1000);
     setInterval(() => {
         syncEvents();
         loadUpdates();

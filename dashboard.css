@@ -37,6 +37,16 @@
     margin: 0%;
 }
 
+#next-event-countdown {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 36pt;
+    color: #27aae1;
+}
+
+#next-event-met {
+    color: #fc3d21
+}
+
 #updates {
     align-self: center;
 }
@@ -97,6 +107,25 @@
     align-items: flex-start;
 }
 
+#event-list-container {
+    overflow-y: auto;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border: 1px solid #444;
+}
+
+.event-item {
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+    color: white;
+}
+
+.event-countdown {
+    font-family: 'Courier New', Courier, monospace;
+    color: #27aae1; /* Distinct color for the timer */
+}
+
 .box {
     flex: 1;
     padding: 10px;
@@ -105,7 +134,8 @@
 #glossary {
     flex-grow: 1;
     overflow: auto;
-    background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
+    color: white;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 }
 
 #streams {
@@ -113,12 +143,13 @@
     flex-direction: column;
     align-items: flex-start;
     align-self: center;
+    flex-grow: 0;
 }
 
 td {
     padding-left: 3px;
     padding-right: 3px;
-    border: 1px solid #111;
+    border: 1px solid #DDD;
 }
 
 #background {
