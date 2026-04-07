@@ -6,6 +6,13 @@ minutes = 0
 seconds = 0
 
 [[events]]
+title = "Integrity Leaves the Moon's SOI"
+days = 5
+hours = 18
+minutes = 48
+seconds = 0
+
+[[events]]
 title = "C2C Call (Integrity to ISS)"
 days = 5
 hours = 20
