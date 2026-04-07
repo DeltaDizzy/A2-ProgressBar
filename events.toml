@@ -41,6 +41,13 @@ minutes = 29
 seconds = 52
 
 [[events]]
+title = "OpCom US Stations Available"
+days = 6
+hours = 8
+minutes = 40
+seconds = 0
+
+[[events]]
 title = "Docking Cam Wastewater Dump"
 days = 6
 hours = 9
