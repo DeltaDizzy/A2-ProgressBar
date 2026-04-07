@@ -4,3 +4,45 @@ days = 5
 hours = 17
 minutes = 0
 seconds = 0
+
+[[events]]
+title = "C2C Call (Integrity to ISS)"
+days = 5
+hours = 20
+minutes = 0
+seconds = 0
+
+[[events]]
+title = "Lunar Flyby Science Debrief"
+days = 5
+hours = 20
+minutes = 30
+seconds = 0
+
+[[events]]
+title = "RTC-1 Starfield"
+days = 6
+hours = 0
+minutes = 15
+seconds = 0
+
+[[events]]
+title = "Slew to RTC-1 Burn Attitude"
+days = 6
+hours = 1
+minutes = 15
+seconds = 0
+
+[[events]]
+title = "RTC-1 Burn"
+days = 6
+hours = 1
+minutes = 29
+seconds = 52
+
+[[events]]
+title = "Docking Cam Wastewater Dump"
+days = 6
+hours = 9
+minutes = 20
+seconds = 0
