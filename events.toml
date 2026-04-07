@@ -1,15 +1,8 @@
 [[events]]
-title = "FD07 Crew Wakeup"
+title = "FD7 Daily Planning Conference"
 days = 5
-hours = 17
-minutes = 0
-seconds = 0
-
-[[events]]
-title = "Integrity Leaves the Moon's SOI"
-days = 5
-hours = 18
-minutes = 48
+hours = 19
+minutes = 30
 seconds = 0
 
 [[events]]
