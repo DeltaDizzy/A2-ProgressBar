@@ -1,71 +1,22 @@
 [[events]]
-title = "FD06 Crew Wakeup (estimate)"
-days = 4
-hours = 16
-minutes = 15
-seconds = 0
-
-[[events]]
-title = "Apollo Distance Record"
-days = 4
-hours = 19
-minutes = 21
-seconds = 0
-
-[[events]]
-title = "Start of Flyby Observations"
-days = 4
-hours = 20
-minutes = 10
-seconds = 0
-
-[[events]]
-title = "Loss of Signal (LOS)"
-days = 5
-hours = 0
-minutes = 9
-seconds = 0
-
-[[events]]
-title = "Closest Approach to the Moon"
-days = 5
-hours = 0
-minutes = 25
-seconds = 34
-
-[[events]]
-title = "Farthest Distance from Earth"
-days = 5
-hours = 0
-minutes = 26
-seconds = 40
-
-[[events]]
-title = "Acquisition of Signal (AOS)"
-days = 5
-hours = 0
-minutes = 48
-seconds = 0
-
-[[events]]
-title = "Start of Solar Eclipse"
-days = 5
-hours = 2
-minutes = 0
-seconds = 0
-
-[[events]]
-title = "End of Solar Eclipse"
-days = 5
-hours = 2
-minutes = 57
-seconds = 0
-
-[[events]]
 title = "Post-Flyby PAO Event (estimate)"
 days = 5
 hours = 4
 minutes = 15
+seconds = 0
+
+[[events]]
+title = "CM/SM Survey"
+days = 5
+hours = 12
+minutes = 30
+seconds = 0
+
+[[events]]
+title = "Lunar SOI Exit"
+days = 5
+hours = 18
+minutes = 53
 seconds = 0
 
 [[events]]
