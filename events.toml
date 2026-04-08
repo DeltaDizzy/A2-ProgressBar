@@ -1,55 +1,55 @@
 [[events]]
-title = "FD7 Daily Planning Conference"
-days = 5
-hours = 19
-minutes = 30
-seconds = 0
-
-[[events]]
-title = "C2C Call (Integrity to ISS)"
-days = 5
-hours = 20
+title = "FD8 Crew Wakeup"
+days = 6
+hours = 17
 minutes = 0
 seconds = 0
 
 [[events]]
-title = "Lunar Flyby Science Debrief"
-days = 5
-hours = 20
+title = "FD8 Daily Planning Conference"
+days = 6
+hours = 19
+minutes = 15
+seconds = 0
+
+[[events]]
+title = "Urine FTO"
+days = 6
+hours = 19
+minutes = 45
+seconds = 0
+
+[[events]]
+title = "CSA PAO"
+days = 6
+hours = 23
 minutes = 30
 seconds = 0
 
 [[events]]
-title = "RTC-1 Starfield"
-days = 6
-hours = 0
+title = "Rad Shelter Demo"
+days = 7
+hours = 1
+minutes = 45
+seconds = 0
+
+[[events]]
+title = "Doc Cam DFTO"
+days = 7
+hours = 3
+minutes = 45
+seconds = 0
+
+[[events]]
+title = "Manual Piloting DFTO 1"
+days = 7
+hours = 4
 minutes = 15
 seconds = 0
 
 [[events]]
-title = "Slew to RTC-1 Burn Attitude"
-days = 6
-hours = 1
-minutes = 15
-seconds = 0
-
-[[events]]
-title = "RTC-1 Burn"
-days = 6
-hours = 1
-minutes = 29
-seconds = 52
-
-[[events]]
-title = "OpCom US Stations Available"
-days = 6
-hours = 8
-minutes = 40
-seconds = 0
-
-[[events]]
-title = "Docking Cam Wastewater Dump"
-days = 6
-hours = 9
-minutes = 20
+title = "Entry Interface - 34 hours"
+days = 7
+hours = 10
+minutes = 45
 seconds = 0
