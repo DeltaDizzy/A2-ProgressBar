@@ -44,3 +44,4 @@ print(f"Blackout Ends: \t\t{convert_time(datetime(2026, 4, 6, 19, 23, 0, tzinfo=
 print(f"Eclipse Start (MET): \t{convert_time(datetime(2026, 4, 6, 20, 35, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"Eclipse End (MET): \t{convert_time(datetime(2026, 4, 6, 21, 32, 0, tzinfo=edt_offset), to_met=True)}")
 print(f"End of Observations: \t{convert_time(datetime(2026, 4, 6, 21, 20, 0, tzinfo=edt_offset), to_met=True)}")
+print(f"Entry Interface: \t{convert_time(datetime(2026, 4, 10, 20, 7, 0, tzinfo=edt_offset), to_met=True)}")
