@@ -136,7 +136,7 @@
     flex-grow: 1;
     overflow: auto;
     color: white;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0.1));
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     margin-top: 1%;
     margin-left: 1%;
 }
