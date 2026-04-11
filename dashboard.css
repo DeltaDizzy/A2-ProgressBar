@@ -160,9 +160,12 @@ td {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: 
-        linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-        url(https://images-assets.nasa.gov/image/art002e009288/art002e009288~orig.jpg) center / cover;
+    background-image: url(https://images-assets.nasa.gov/image/55199854793_6863c5998c_o/55199854793_6863c5998c_o~orig.jpg);
+    background-origin: border-box;
+    background-position-x: center;
+    background-position-y: 2%;
+    background-repeat: no-repeat;
+    background-size: 100%;
 };
 
 #updates-text span {
@@ -183,4 +186,14 @@ a {
 
 .box > iframe {
     padding: 10px;
+}
+
+#success h2 {
+    color: white;
+    text-align: center;
+}
+
+#success p {
+    color: white;
+    text-align: center;
 }
